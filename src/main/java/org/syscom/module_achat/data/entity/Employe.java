@@ -45,4 +45,8 @@ public class Employe {
         }
         return employe;
     }
+
+    public String getNomComplet(){
+        return this.nom + " " + this.prenom;
+    }
 }
