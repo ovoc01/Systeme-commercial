@@ -1,6 +1,10 @@
 -- Active: 1700197213550@@127.0.0.1@5432@module_achat
 create database module_achat;
+--sequence
+create SEQUENCE seq_idServices;
+CREATE SEQUENCE seq_idEmploye;
 
+--tables
 create table services(
     idServices int primary key,
     libelle varchar(255) not null
