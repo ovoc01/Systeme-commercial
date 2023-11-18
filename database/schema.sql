@@ -20,4 +20,3 @@ create table employe(
     constraint fk_services foreign key(idServices) references services(idServices)
 );
 
-
