@@ -16,9 +16,8 @@ import lombok.Data;
 public class Besoin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idBesoins")
-    private int id;
+    private Integer id;
 
     @Column(name = "dateCreation")
     private Timestamp dateCreation;
@@ -26,5 +25,8 @@ public class Besoin {
     @Column(name = "etat")
     private int etat;
 
-    // getters and setters
+    private Integer idEmploye;
+
+
+    
 }

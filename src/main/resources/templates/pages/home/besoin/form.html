@@ -1,0 +1,74 @@
+<!-- partial -->
+<div class="main-panel" th:fragment="formFragment">
+    <div class="content-wrapper ">
+        <div class="row">
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Ajout besoins</h4>
+                        <form class="forms-sample" method="post" action="/home/add-details">
+                            <div class="form-group">
+                                <label for="exampleInputUsername1">Produits</label>
+                                <select class="form-select" aria-label="Default select example" name="produit">
+                                    <option selected>Choisissez le produit</option>
+                                    <option th:each="produit : ${produits}" th:value="${produit.getId()}"
+                                        th:text="${produit.getLibelle()}"></option>
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Quantité</label>
+                                <input type="number" class="form-control" id="exampleInputEmail1" min="0"
+                                    placeholder="Quantité" name="quantite">
+                            </div>
+                            <button type="submit" class="btn btn-primary ">Ajouter besoin</button>
+                            <button class="btn btn-light">Annulez</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Aperçus besoins</h4>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantité</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="detail : ${currentDetails}">
+                                        <td th:text="${detail.getProduit().getLibelle()}"></td>
+                                        <td th:text="${detail.getQuantite()}"></td>
+                                        <td>
+                                            <a href="#">
+                                                <label style="cursor: pointer;"
+                                                    class="badge badge-info">Modifier</label>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#">
+                                                <label style="cursor: pointer;"
+                                                    class="badge badge-danger">Supprimer</label>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class=" mx-auto my-auto" href="/home/validate-besoin"><button
+                    class="btn btn-success col-lg-3">Validez</button></a>
+        </div>
+
+    </div>
+</div>

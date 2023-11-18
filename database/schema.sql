@@ -41,7 +41,9 @@ create table produits(
 create table besoins(
     idBesoins int primary key,
     dateCreation timestamp not null,
-    etat int not NULL default 0
+    idEmploye int not null,
+    etat int not NULL default 0,
+    constraint fk_employe foreign key(idEmploye) references employe(idEmploye)
 );
 
 create table details(
@@ -56,5 +58,5 @@ create table details(
 );
 
 
-Drop table besoins;
-
+SELECT * from besoins;
+select * from details;

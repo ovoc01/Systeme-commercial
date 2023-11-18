@@ -10,7 +10,7 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idServices")
-    private int id;
+    private Integer id;
 
     private String libelle;
 

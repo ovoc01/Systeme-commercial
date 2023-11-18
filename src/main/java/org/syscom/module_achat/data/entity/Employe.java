@@ -22,7 +22,7 @@ public class Employe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idEmploye")
-    private int id;
+    private Integer id;
 
     private String nom;
 
@@ -30,10 +30,14 @@ public class Employe {
     private String email;
 
     private String motDePasse;
+    
 
     @ManyToOne
     @JoinColumn(name = "idServices", nullable = false)
     private Service service;
+    @ManyToOne
+    @JoinColumn(name = "mgr",nullable = true)
+    private Employe manager;
 
     public static Employe login(String email,String pwd,EmployeRepository employeRepository){
         Employe employe = employeRepository.findByEmail(email);
@@ -48,5 +52,9 @@ public class Employe {
 
     public String getNomComplet(){
         return this.nom + " " + this.prenom;
+    }
+
+    public boolean isMgr(){
+        return this.manager==null;
     }
 }

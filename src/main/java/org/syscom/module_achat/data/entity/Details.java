@@ -2,8 +2,6 @@ package org.syscom.module_achat.data.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,14 +14,15 @@ import lombok.Data;
 public class Details {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idDetails")
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "idBesoins", nullable = false)
     private Besoin besoin;
 
+
+   
     @ManyToOne
     @JoinColumn(name = "idProduits", nullable = false)
     private Produit produit;
@@ -33,7 +32,7 @@ public class Details {
     private Employe employe;
 
     @Column(name = "quantite")
-    private int quantite;
+    private Integer quantite;
 
-    // getters and setters
+    
 }
