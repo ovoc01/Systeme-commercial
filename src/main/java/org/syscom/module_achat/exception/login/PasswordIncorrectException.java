@@ -1,4 +1,4 @@
-package org.syscom.module_achat.exception;
+package org.syscom.module_achat.exception.login;
 
 public class PasswordIncorrectException extends RuntimeException{
     public PasswordIncorrectException(String message){

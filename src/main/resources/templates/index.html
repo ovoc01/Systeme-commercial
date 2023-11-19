@@ -37,11 +37,11 @@
               <h6 class="fw-light">Sign in to continue.</h6>
               <form class="pt-3" method="post" action="/login">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg " th:value="${param.email}" id="exampleInputEmail1" placeholder="email@gmail.com" name="email" required>
+                  <input type="email" class="form-control form-control-lg "  th:value="${param.email ?: 'john.doe@gmail.com'}"  id="exampleInputEmail1" placeholder="email@gmail.com" name="email" required>
                   <p class="text-danger" th:text="${param.errorEmail}"></p>
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" th:value="${param.password}"id="exampleInputPassword1" placeholder="Password" name="password" required >
+                  <input type="password" class="form-control form-control-lg" th:value="${param.password?:'password'}"id="exampleInputPassword1" placeholder="Password" name="password" required >
                   <p class="text-danger" th:text="${param.errorPassword}"></p>
                 </div>
                 <div class="mt-3">

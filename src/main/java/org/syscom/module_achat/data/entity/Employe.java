@@ -1,8 +1,8 @@
 package org.syscom.module_achat.data.entity;
 
 import org.syscom.module_achat.data.repository.EmployeRepository;
-import org.syscom.module_achat.exception.EmailNotFoundException;
-import org.syscom.module_achat.exception.PasswordIncorrectException;
+import org.syscom.module_achat.exception.login.EmailNotFoundException;
+import org.syscom.module_achat.exception.login.PasswordIncorrectException;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

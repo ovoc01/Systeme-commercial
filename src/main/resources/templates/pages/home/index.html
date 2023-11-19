@@ -29,7 +29,11 @@
         <div th:replace="~{partials/navbar :: navbarFragment}"></div>
         <div class="container-fluid page-body-wrapper">
             <div th:replace="~{partials/sidebar :: sidebarFragment}"></div>
-
+            <div class="container-fluid page-body-wrapper">
+                <div class="container d-flex justify-content-center">
+                    <h3>Qu'est ce que vous voulez faire aujourd'hui ?</h3>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -38,7 +42,6 @@
     <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="/js/off-canvas.js"></script>
     <script src="/js/hoverable-collapse.js"></script>
-    <script src="/js/template.js"></script>
     <script src="/js/settings.js"></script>
     <script src="/js/todolist.js"></script>
 </body>

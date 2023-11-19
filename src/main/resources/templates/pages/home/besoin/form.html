@@ -1,74 +1,89 @@
 <!-- partial -->
-<div class="main-panel" th:fragment="formFragment">
-    <div class="content-wrapper ">
-        <div class="row">
-            <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Ajout besoins</h4>
-                        <form class="forms-sample" method="post" action="/home/add-details">
-                            <div class="form-group">
-                                <label for="exampleInputUsername1">Produits</label>
-                                <select class="form-select" aria-label="Default select example" name="produit">
-                                    <option selected>Choisissez le produit</option>
-                                    <option th:each="produit : ${produits}" th:value="${produit.getId()}"
-                                        th:text="${produit.getLibelle()}"></option>
 
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Quantité</label>
-                                <input type="number" class="form-control" id="exampleInputEmail1" min="0"
-                                    placeholder="Quantité" name="quantite">
-                            </div>
-                            <button type="submit" class="btn btn-primary ">Ajouter besoin</button>
-                            <button class="btn btn-light">Annulez</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Aperçus besoins</h4>
-
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Quantité</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="detail : ${currentDetails}">
-                                        <td th:text="${detail.getProduit().getLibelle()}"></td>
-                                        <td th:text="${detail.getQuantite()}"></td>
-                                        <td>
-                                            <a href="#">
-                                                <label style="cursor: pointer;"
-                                                    class="badge badge-info">Modifier</label>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#">
-                                                <label style="cursor: pointer;"
-                                                    class="badge badge-danger">Supprimer</label>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
+<div class="content-wrapper " th:fragment="formFragment">
+    <div class="row">
+        <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Ajout besoins</h4>
+                    <<form id="myForm" class="forms-sample" method="post" th:action="${detailsUpdate != null ? '/home/update-details'  : '/home/add-details'}">
+                        <div class="form-group">
+                            <label for="exampleInputUsername1">Produits</label>
+                            <select class="form-select" aria-label="Default select example" name="produit">
+                                <option selected>Choisissez le produit</option>
+                                <option th:each="produit : ${produits}" th:value="${produit.getId()}"
+                                    th:text="${produit.getLibelle()}"
+                                    th:selected="${detailsUpdate != null && produit.getId() == detailsUpdate.getProduit().getId()}">
+                                </option>
+                            </select>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Quantité</label>
+                            <input type="number" class="form-control" id="exampleInputEmail1" min="0"
+                                placeholder="Quantité" name="quantite"
+                                th:value="${detailsUpdate != null ? detailsUpdate.getQuantite() : ''}">
+                        </div>
+                        <input th:if="${detailsUpdate!=null}" type="hidden" th:value="${idUpdate}" name="">
+                    </form>
+                    <input type="submit" class="btn btn-primary " form="myForm" value="Ajouter besoin">
+
+                    <a href="/home/cancel-besoin"><button id="liveToastBtn" class="btn btn-light">Annulez</button></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Aperçus besoins</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantité</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="detail, iterStat : ${currentDetails}">
+                                    <td th:text="${detail.getProduit().getLibelle()}"></td>
+                                    <td th:text="${detail.getQuantite()}"></td>
+                                    <td>
+                                        <a th:href="@{/home/besoin/details/{id}/update(id=${iterStat.count})}">
+                                            <label style="cursor: pointer;" class="badge badge-info">Modifier</label>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/home/besoin/details/{id}/delete(id=${iterStat.count})}">
+                                            <label style="cursor: pointer;" class="badge badge-danger">Supprimer</label>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <a class=" mx-auto my-auto" href="/home/validate-besoin"><button
-                    class="btn btn-success col-lg-3">Validez</button></a>
         </div>
+        <a class=" mx-auto my-auto" href="/home/validate-besoin"><button
+                class="btn btn-success col-lg-3">Validez</button></a>
+    </div>
 
+</div>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
     </div>
 </div>

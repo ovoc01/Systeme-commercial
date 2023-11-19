@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.syscom.module_achat.data.entity.Employe;
 import org.syscom.module_achat.data.repository.EmployeRepository;
-import org.syscom.module_achat.exception.EmailNotFoundException;
-import org.syscom.module_achat.exception.PasswordIncorrectException;
+import org.syscom.module_achat.exception.login.EmailNotFoundException;
+import org.syscom.module_achat.exception.login.PasswordIncorrectException;
 
 import jakarta.servlet.http.HttpSession;
 

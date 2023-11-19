@@ -1,0 +1,52 @@
+<div class="content-wrapper" th:fragment="listFragment">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Listes des demandes de besoins</h4>
+
+                <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>Employe</th>
+                                <th>References de demande</th>
+                                <th>Date de creation</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr th:each="besoin : ${listBesoinByService}">
+                                <td th:text="${besoin.getEmploye().getNom()}"></td>
+                                <td th:text="${besoin.generateReference()}"></td>
+                                <td th:text="${besoin.formatTimestamp()}"></td>
+                                <th:block th:switch="${besoin.getEtat()}">
+
+                                    <td th:case="0"><label th:text="${besoin.getStatusString()}"
+                                            class="badge badge-warning"></label></td>
+                                    <td th:case="1"><label th:text="${besoin.getStatusString()}"
+                                            class="badge badge-success"></label></td>
+                                    <td th:case="0"><label th:text="${besoin.getStatusString()}"
+                                            class="badge badge-danger"></label></td>
+                                </th:block>
+                                <td>
+                                    <a th:href="@{/home/besoin/{id}/delete(id=${besoin.id})}">
+                                        <label style="cursor: pointer;" class="badge badge-danger">supprimer</label>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/home/besoin/{id}/details(id=${besoin.id})}">
+                                        <label style="cursor: pointer;" class="badge badge-success">voir details</label>
+                                    </a>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

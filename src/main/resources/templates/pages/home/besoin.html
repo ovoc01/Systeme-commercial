@@ -12,6 +12,8 @@
     <link rel="stylesheet" th:href="@{/vendors/typicons/typicons.css}">
     <link rel="stylesheet" th:href="@{/vendors/simple-line-icons/css/simple-line-icons.css}">
     <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+    <link rel="stylesheet" href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="@{/bootstrap/css/bootstrap.css}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -28,20 +30,39 @@
     <div class="container-scroller">
         <div th:replace="~{partials/navbar :: navbarFragment}"></div>
         <div class="container-fluid page-body-wrapper">
-            
+
             <div th:replace="~{partials/sidebar :: sidebarFragment}"></div>
-            <div th:replace="~{pages/home/besoin/form ::formFragment}" th:with="produits=${produits}"></div>
+            
+                <th:block th:switch="${pages}">
+                    
+                    <div class="main-panel" th:case="'create-besoin'">
+                        <div  th:replace="~{pages/home/besoin/form ::formFragment}" ></div>
+                    </div>
+                    <div class="main-panel" th:case="'besoins'">
+                        <div  th:replace="~{pages/home/besoin/list ::listFragment}"></div>
+                    </div>
+                    <div class="main-panel" th:case="'besoin-details'">
+                        <div  th:replace="~{pages/home/besoin/details ::detailsFragment}"></div>
+                    </div>
+                    
+                </th:block>
+            
+            
         </div>
     </div>
+    
 
     <script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
 
     <script th:src="@{/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js}"></script>
     <script th:src="@{/js/off-canvas.js}"></script>
     <script th:src="@{/js/hoverable-collapse.js}"></script>
-    <script th:src="@{/js/template.js}"></script>
     <script th:src="@{/js/settings.js}"></script>
     <script th:src="@{/js/todolist.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.js}"></script>
 </body>
 
 

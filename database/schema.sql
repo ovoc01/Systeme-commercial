@@ -23,7 +23,8 @@ create  table employe(
     motDePasse varchar(255) not null,
     idServices int not null,
     mgr int ,
-    constraint fk_services foreign key(idServices) references services(idServices)
+    constraint fk_services foreign key(idServices) references services(idServices),
+    constraint fk_employe foreign key(mgr) references employe(idEmploye)
 );
 
 create table nature(
@@ -42,8 +43,20 @@ create table besoins(
     idBesoins int primary key,
     dateCreation timestamp not null,
     idEmploye int not null,
+    idService int not null,
     etat int not NULL default 0,
-    constraint fk_employe foreign key(idEmploye) references employe(idEmploye)
+    constraint fk_employe foreign key(idEmploye) references employe(idEmploye),
+    constraint fk_service foreign key(idService) references services(idServices)
+);
+
+create table besoin_transaction_log(
+    idBesoins int not null,
+    idEmploye int not null,
+    idService int not null,
+    etat int not NULL default 0,
+    dateCreation timestamp not null,
+    constraint fk_employe foreign key(idEmploye) references employe(idEmploye),
+    constraint fk_service foreign key(idService) references services(idServices)
 );
 
 create table details(
@@ -60,3 +73,8 @@ create table details(
 
 SELECT * from besoins;
 select * from details;
+
+drop table employe cascade;
+ DROP TABLE besoins;
+
+ select * from employe;
