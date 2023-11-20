@@ -1,43 +1,47 @@
 <div class="content-wraper mt-3  d-flex justify-content-center" th:fragment="detailsFragment">
-    <div class="col-lg-9 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Details besoin </h4>
-            <p class="card-description">
-                <u>Reference</u>:
-                
-              <code th:text="${besoinChoosed.generateReference()}"></code>
-            </p>
-            <p class="card-description">
-              <u>Status</u>:  <code th:text="${besoinChoosed.getStatusString()}"></code>    
-            </p>
-            <p class="card-description">
-               Ce demande de besoin a été crée le <code th:text="${besoinChoosed.formatTimestamp()}"></code> par <span class="fw-bold" th:text="${besoinChoosed.getEmploye().getNomComplet()}"><span/>
-            </p>
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Produits</th>
-                    <th>Nature</th>
-                    <th>Quantité</th>
-                    
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr th:each="detail : ${details}">
-                    <td th:text="${detail.getProduit().getLibelle()}">Jacob</td>
-                    <td th:text="${detail.getProduit().getNature().getLibelle()}"></td>
-                    <td th:text="${detail.getQuantite()}"></td>
-                   
-                  </tr>
-                </tbody>
-              </table>
-              <div th:switch="${employe.isMgr()}">
-                  <button th:case="true"  class="btn btn-success">Validez la demande</button>
-              </div>
-            </div>
+  <div class="col-lg-9 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Details besoin </h4>
+        <p class="card-description">
+          <u>Reference</u>:
+
+          <code th:text="${besoinChoosed.generateReference()}"></code>
+        </p>
+        <p class="card-description">
+          <u>Status</u>: <code th:text="${besoinChoosed.getStatusString()}"></code>
+        </p>
+        <p class="card-description">
+          Ce demande de besoin a été crée le <code th:text="${besoinChoosed.formatTimestamp()}"></code> par <span
+            class="fw-bold" th:text="${besoinChoosed.getEmploye().getNomComplet()}"><span />
+        </p>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Produits</th>
+                <th>Nature</th>
+                <th>Quantité</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="detail : ${details}">
+                <td th:text="${detail.getProduit().getLibelle()}">Jacob</td>
+                <td th:text="${detail.getProduit().getNature().getLibelle()}"></td>
+                <td th:text="${detail.getQuantite()}"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div th:switch="${employe.isMgr()&&success==null&& besoinChoosed.getEtat()==0}">
+            <a th:href="@{/home/besoin/{id}/validate(id=${besoinChoosed.getId()})}">
+              <button th:case="true" class="btn btn-success">Validez la demande</button>
+            </a>
           </div>
+          <br>
+          <div th:if="${success!=null}" class="alert alert-success" th:text="${success}"></div>
+          <div th:if="${error!=null}" class="alert alert-danger" th:text="${error}"></div>
         </div>
       </div>
+    </div>
+  </div>
 </div>

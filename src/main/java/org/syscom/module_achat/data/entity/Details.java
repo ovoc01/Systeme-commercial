@@ -34,5 +34,9 @@ public class Details {
     @Column(name = "quantite")
     private Integer quantite;
 
+    private Integer etat;
+
+    
+
     
 }

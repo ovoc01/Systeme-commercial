@@ -2,8 +2,11 @@ package org.syscom.module_achat.data.entity;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,11 +16,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "besoins")
-@Data
+@Getter
+@Setter
+
 public class Besoin {
 
     @Id
@@ -36,6 +42,7 @@ public class Besoin {
 
     @Column(name = "idService")
     private Integer idServices;
+    private String reference;
 
     @OneToMany(mappedBy = "besoin", cascade = CascadeType.ALL)
     private List<Details> details;
@@ -66,4 +73,40 @@ public class Besoin {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy 'à' HH:mm", Locale.ENGLISH);
         return dateFormat.format(dateCreation);
     }
+
+    public ArrayList<Details> groupDetails(List<Besoin> besoins) {
+        Map<Integer, Integer> produitQuantiteMap = new HashMap<>();
+
+        // Iterate through each Besoin
+        for (Besoin besoin : besoins) {
+            // Iterate through details of the current Besoin
+            for (Details detail : besoin.getDetails()) {
+                int produitId = detail.getProduit().getId();
+                int quantite = detail.getQuantite();
+
+                // Update the total quantity for the current Produit in the map
+                produitQuantiteMap.put(produitId, produitQuantiteMap.getOrDefault(produitId, 0) + quantite);
+            }
+        }
+
+        ArrayList<Details> newDetails = new ArrayList<>();
+
+        
+        for (Besoin besoin : besoins) {
+            for (Details detail : besoin.getDetails()) {
+                int produitId = detail.getProduit().getId();
+                int totalQuantite = produitQuantiteMap.get(produitId);
+
+                // Create a new Details object with the summed quantity
+                Details groupedDetail = new Details();
+                groupedDetail.setProduit(detail.getProduit());
+                groupedDetail.setQuantite(totalQuantite);
+
+                if(!newDetails.contains(groupedDetail))newDetails.add(groupedDetail);
+            }
+        }
+
+        return newDetails;
+    }
+
 }

@@ -32,12 +32,12 @@
                                             class="badge badge-danger"></label></td>
                                 </th:block>
                                 <td>
-                                    <a th:href="@{/home/besoin/{id}/delete(id=${besoin.id})}">
+                                    <a th:href="@{/home/besoin/{id}/delete(id=${besoin.getId()})}">
                                         <label style="cursor: pointer;" class="badge badge-danger">supprimer</label>
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{/home/besoin/{id}/details(id=${besoin.id})}">
+                                    <a th:href="@{/home/besoin/{id}/details(id=${besoin.getId()})}">
                                         <label style="cursor: pointer;" class="badge badge-success">voir details</label>
                                     </a>
                                 </td>
@@ -45,6 +45,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <p class="text-danger" th:text="${error}"></p>
                 </div>
             </div>
         </div>

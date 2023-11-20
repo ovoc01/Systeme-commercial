@@ -1,0 +1,50 @@
+<div class="content-wraper mt-3  d-flex justify-content-center" th:fragment="groupFragment">
+    <div class="row flex-grow d-flex justify-content-center">
+
+        <div class="col-lg-10 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Demande Groupé</h4>
+
+                    <div class="table-responsive pt-3">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Produits
+                                    </th>
+                                    <th>
+                                        Quantité
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="detail,iterartion :${detailsBesoinGrouped}">
+                                    <td th:text="${iterartion.count}">
+
+                                    </td>
+                                    <td th:text="${detail.getProduit().getLibelle()}">
+
+                                    </td>
+                                    <td th:text="${detail.getQuantite()}">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <a href="/home/proforma"><button class="btn btn-primary">Créer proforma</button></a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

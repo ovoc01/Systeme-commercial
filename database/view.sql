@@ -1,2 +1,4 @@
 
-select * from details;
+
+
+delete from details ;

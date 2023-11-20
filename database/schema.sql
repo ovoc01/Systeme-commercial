@@ -45,6 +45,7 @@ create table besoins(
     idEmploye int not null,
     idService int not null,
     etat int not NULL default 0,
+    reference VARCHAR not null,
     constraint fk_employe foreign key(idEmploye) references employe(idEmploye),
     constraint fk_service foreign key(idService) references services(idServices)
 );
@@ -65,16 +66,51 @@ create table details(
     idProduits int not null,
     idEmploye int not null,
     quantite int not null,
+    etat int not NULL default 0,
     constraint fk_produits foreign key(idProduits) references produits(idProduits),
     constraint fk_employe foreign key(idEmploye) references employe(idEmploye),
     constraint fk_besoins foreign key(idBesoins) references besoins(idBesoins)
 );
 
 
+create table fournisseurs (
+    idFournisseurs int primary key,
+    libelle VARCHAR not NULL,
+    email varchar(255) not null,
+    address VARCHAR not NULL
+);
+
+create table proforma(
+    idProforma int primary key,
+    idFournisseurs int not null,
+    dateCreation date,
+    constraint fk_fournisseurs FOREIGN KEY(idFournisseurs) REFERENCES fournisseurs(idFournisseurs)
+);
+
+
+create table details_proforma(
+    idDetailsProforma int primary key,
+    idProforma int not null,
+    prix float not null,
+    idProduits int not null,
+    quantite int not null,
+    constraint fk_proforma FOREIGN KEY(idProforma) REFERENCES proforma(idProforma),
+    constraint fk_produits FOREIGN KEY(idProduits) REFERENCES produits(idProduits)
+);
+
 SELECT * from besoins;
 select * from details;
 
 drop table employe cascade;
- DROP TABLE besoins;
+ DROP TABLE details cascade;
 
  select * from employe;
+
+ select * from besoin_transaction_log;
+ 
+ select * from besoin_transaction_log;
+ SELECT * from besoins;
+
+drop table besoins cascade;
+drop table details cascade;
+drop table besoin_transaction_log cascade;

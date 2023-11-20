@@ -11,7 +11,15 @@ import org.syscom.module_achat.data.entity.Besoin;
 public interface BesoinRepository extends JpaRepository<Besoin, Integer> {
     @Query(value = "select nextval('seq_idBesoins')", nativeQuery = true)
     Integer getLastId();
+
     Besoin findById(int id);
+
+    @Query(value = "select * from besoins where idService = ?1 and etat>=0", nativeQuery = true)
     List<Besoin> findByIdServices(int idServices);
-    boolean deleteById(int id);
+
+    void deleteById(int id);
+
+
+    List<Besoin> findByEtat(int etat);
+
 }

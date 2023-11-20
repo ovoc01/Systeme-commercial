@@ -57,4 +57,10 @@ public class Employe {
     public boolean isMgr(){
         return this.manager==null;
     }
+
+    public boolean isDepartementAchat(){
+        return this.service.getId()==3;
+    }
+
+
 }

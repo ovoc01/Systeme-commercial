@@ -1,25 +1,18 @@
--- Active: 1700197213550@@127.0.0.1@5432@module_achat
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Login </title>
-  <!-- plugins:css -->
   <link rel="stylesheet" href="/vendors/feather/feather.css">
   <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="/vendors/typicons/typicons.css">
   <link rel="stylesheet" href="/vendors/simple-line-icons/css/simple-line-icons.css">
   <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
+
   <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
-  <!-- endinject -->
   <link rel="shortcut icon" href="/images/favicon.png" />
 </head>
 
@@ -37,17 +30,21 @@
               <h6 class="fw-light">Sign in to continue.</h6>
               <form class="pt-3" method="post" action="/login">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg "  th:value="${param.email ?: 'john.doe@gmail.com'}"  id="exampleInputEmail1" placeholder="email@gmail.com" name="email" required>
+                  <input type="email" class="form-control form-control-lg "
+                    th:value="${param.email ?: 'departement@gmail.com'}" id="exampleInputEmail1"
+                    placeholder="email@gmail.com" name="email" required>
                   <p class="text-danger" th:text="${param.errorEmail}"></p>
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" th:value="${param.password?:'password'}"id="exampleInputPassword1" placeholder="Password" name="password" required >
+                  <input type="password" class="form-control form-control-lg" th:value="${param.password?:'12345'}"
+                    id="exampleInputPassword1" placeholder="Password" name="password" required>
                   <p class="text-danger" th:text="${param.errorPassword}"></p>
                 </div>
                 <div class="mt-3">
-                  <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="SIGN IN">
+                  <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                    value="SIGN IN">
                 </div>
-               
+
               </form>
             </div>
           </div>

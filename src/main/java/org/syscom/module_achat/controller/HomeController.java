@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.syscom.module_achat.data.entity.Besoin;
 import org.syscom.module_achat.data.entity.Details;
 import org.syscom.module_achat.data.entity.Employe;
+import org.syscom.module_achat.data.entity.GraphChart;
 import org.syscom.module_achat.data.entity.Produit;
 import org.syscom.module_achat.data.repository.BesoinRepository;
 import org.syscom.module_achat.data.repository.DetailsRepository;
@@ -86,7 +87,7 @@ public class HomeController {
         details.setProduit(this.produitsfindAll.stream().filter(p -> p.getId() == idProduit).findFirst().orElse(null));
         details.setQuantite(quantite);
         details.setEmploye((Employe) session.getAttribute("employe"));
-
+        details.setEtat(0);
         ArrayList<Details> currentDetails = (ArrayList<Details>) session.getAttribute("details");
 
         // Check if the product with the same ID is already in the list
@@ -114,6 +115,7 @@ public class HomeController {
         Besoin besoin = (Besoin) session.getAttribute("besoin");
         besoin.setId(besoinRepository.getLastId());
         besoin.setDateCreation(Timestamp.valueOf(LocalDateTime.now()));
+        besoin.setReference(besoin.generateReference());
         ArrayList<Details> details = (ArrayList<Details>) session.getAttribute("details");
 
         besoinService.saveBesoin(details, besoin);
@@ -166,13 +168,14 @@ public class HomeController {
         Employe employe = (Employe) session.getAttribute("employe");
 
         try {
-            besoinService.deleteBesoin(3, employe);
+            besoinService.deleteBesoin(id, employe);
             System.err.println("besoin supprimé");
         } catch (NotAuthorizedToDeleteException e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/home/besoins";
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Une erreur s'est produite");
             return "redirect:/home/besoins";
         }
@@ -184,43 +187,74 @@ public class HomeController {
             RedirectAttributes redirectAttributes) {
         Employe employe = (Employe) session.getAttribute("employe");
         ArrayList<Details> details = (ArrayList<Details>) session.getAttribute("details");
-        
+
         System.out.println("details: " + details.size());
-        details.remove(id-1);
+        details.remove(id - 1);
         System.out.println("details: " + details.size());
-        
+
         redirectAttributes.addFlashAttribute("currentDetails", details);
         return "redirect:/home/create-besoin";
     }
+
     @GetMapping("besoin/details/{id}/update")
     public String updateDetails(@PathVariable("id") int id, Model model, HttpSession session,
             RedirectAttributes redirectAttributes) {
         Employe employe = (Employe) session.getAttribute("employe");
         ArrayList<Details> details = (ArrayList<Details>) session.getAttribute("details");
-        
+
         System.out.println("details: " + details.size());
-        
+
         System.out.println("details: " + details.size());
-        
+
         redirectAttributes.addFlashAttribute("currentDetails", details);
 
-        redirectAttributes.addFlashAttribute("detailsUpdate", details.get(id-1));
+        redirectAttributes.addFlashAttribute("detailsUpdate", details.get(id - 1));
         redirectAttributes.addFlashAttribute("idUpdate", id);
         return "redirect:/home/create-besoin";
-    }    
+    }
 
     @PostMapping("update-details")
-    public String updateDetails(@RequestParam(name = "id",required = false) Integer id,@RequestParam("idUpdate")int idUpdate,@RequestParam("quantite") int quantite, Model model, HttpSession session,
+    public String updateDetails(@RequestParam("idUpdate") int idUpdate, @RequestParam("quantite") int quantite,
+            Model model, HttpSession session,
             RedirectAttributes redirectAttributes) {
         Employe employe = (Employe) session.getAttribute("employe");
         ArrayList<Details> details = (ArrayList<Details>) session.getAttribute("details");
-        
+
         System.out.println("details: " + details.size());
-        details.get(id-1).setQuantite(quantite);
+        details.get(idUpdate - 1).setQuantite(quantite);
         System.out.println("details: " + details.size());
-        
+
         redirectAttributes.addFlashAttribute("currentDetails", details);
         return "redirect:/home/create-besoin";
     }
+
+    @GetMapping("besoin/{id}/validate")
+    public String validateBesoin(@PathVariable("id") Integer id, Model model, HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        Employe employe = (Employe) session.getAttribute("employe");
+        try {
+            besoinService.mgrValidateBesoin(id, employe);
+            redirectAttributes.addFlashAttribute("success", "Le besoin a été validé");
+            return "redirect:/home/besoin/" + id + "/details";
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/home/besoin/" + id + "/details";
+
+        }
+
+    }
+
+    @GetMapping("besoin/group")
+    public String groupBesoin(Model model,HttpSession session){
+        model.addAttribute("employe", session.getAttribute("employe"));
+        model.addAttribute("pages", "group-besoin");
+        model.addAttribute("detailsBesoinGrouped", besoinService.getGroupedDetails());
+        model.addAttribute("graph", new GraphChart(besoinService.getGroupedDetails()));
+        System.out.println(besoinService.getGroupedDetails());
+        return "pages/home/besoin";
+    }
+
+    
 
 }
