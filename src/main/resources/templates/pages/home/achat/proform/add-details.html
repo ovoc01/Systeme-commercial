@@ -1,0 +1,73 @@
+<!-- partial -->
+
+<div class="content-wrapper " th:fragment="proformaDetailsFragment">
+    <div class="row">
+        <div class="col-lg-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Ajout details proforma</h4>
+                    <form id="myForm" class="forms-sample" method="post" action="/home/proforma/add-details">
+                        <div class="form-group">
+                            <label for="exampleInputUsername1">Produits</label>
+                            <select class="form-select" aria-label="Default select example" name="idProduit">
+                                <option selected>Choisissez le produit</option>
+                                <option th:each="produit : ${produits}" th:value="${produit.getId()}"
+                                    th:text="${produit.getLibelle()}">
+                                </option>
+                            </select>
+                            
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Quantité</label>
+                            <input type="number" class="form-control" id="exampleInputEmail1" min="0"
+                                placeholder="Quantité" name="quantite">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Prix unitaire</label>
+                            <input type="number" class="form-control" id="exampleInputEmail1" min="0"
+                                placeholder="prix-unitaire" name="pu">
+                        </div>
+                    </form>
+                    <input type="submit" class="btn btn-primary " form="myForm" value="Ajouter proforma">
+
+                    <a href="/home/cancel-besoin"><button id="liveToastBtn" class="btn btn-light">Annulez</button></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Aperçus Proforma</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="detail, iterStat : ${currentDetailsProforma}">
+                                    <td th:text="${detail.getProduit().getLibelle()}"></td>
+                                    <td th:text="${detail.getQuantite()}"></td>
+                                    <td th:text="${detail.getPrix()}"></td>
+                                    <td th:text="${detail.getPrixTotal()}"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class=" mx-auto my-auto" href="/home/proforma/validate"><button
+                class="btn btn-success col-lg-3">Validez</button></a>
+    </div>
+
+</div>

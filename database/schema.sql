@@ -7,6 +7,10 @@ create SEQUENCE seq_idNature;
 create SEQUENCE seq_idProduits;
 create SEQUENCE seq_idBesoins;
 create SEQUENCE seq_idDetails;
+ create SEQUENCE seq_idDetails_proforma;
+ create SEQUENCE seq_idProforma;
+ create SEQUENCE seq_idBondeCommande;
+ create SEQUENCE seq_idDetails_bonde_commande;
 
 
 --tables
@@ -88,6 +92,8 @@ create table proforma(
 );
 
 
+
+
 create table details_proforma(
     idDetailsProforma int primary key,
     idProforma int not null,
@@ -96,6 +102,25 @@ create table details_proforma(
     quantite int not null,
     constraint fk_proforma FOREIGN KEY(idProforma) REFERENCES proforma(idProforma),
     constraint fk_produits FOREIGN KEY(idProduits) REFERENCES produits(idProduits)
+);
+
+create table bonde_commande(
+    idBondeCommande int primary key,
+    idFournisseurs int not null,
+    dateCreation date,
+    etat int not NULL default 0,
+    constraint fk_fournisseurs FOREIGN KEY(idFournisseurs) REFERENCES fournisseurs(idFournisseurs)
+);
+
+create table details_bonde_commande
+(
+    idDetailsBondeCommande int primary key,
+    idBondeCommande int not null,
+    idProduits int not null,
+    quantite int not null,
+    prix float not null,
+    constraint fk_produits FOREIGN KEY(idProduits) REFERENCES produits(idProduits),
+    constraint fk_bonde_commande FOREIGN KEY(idBondeCommande) REFERENCES bonde_commande(idBondeCommande)
 );
 
 SELECT * from besoins;

@@ -18,8 +18,7 @@ public interface BesoinRepository extends JpaRepository<Besoin, Integer> {
     List<Besoin> findByIdServices(int idServices);
 
     void deleteById(int id);
-
-
+    
     List<Besoin> findByEtat(int etat);
 
 }

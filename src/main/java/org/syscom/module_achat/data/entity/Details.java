@@ -1,5 +1,7 @@
 package org.syscom.module_achat.data.entity;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -38,5 +40,25 @@ public class Details {
 
     
 
-    
+    public ArrayList<Details> groupBesoinsByService(ArrayList<Details> details){
+        ArrayList<Details> result = new ArrayList<Details>();
+        for(Details detail : details){
+            if(result.size()==0){
+                result.add(detail);
+            }else{
+                boolean found = false;
+                for(Details detailResult : result){
+                    if(detailResult.getBesoin().getIdServices()==detail.getBesoin().getIdServices()){
+                        detailResult.setQuantite(detailResult.getQuantite()+detail.getQuantite());
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    result.add(detail);
+                }
+            }
+        }        
+        return result;
+    }
 }

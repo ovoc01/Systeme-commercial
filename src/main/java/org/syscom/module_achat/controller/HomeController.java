@@ -3,6 +3,7 @@ package org.syscom.module_achat.controller;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.syscom.module_achat.data.entity.GraphChart;
 import org.syscom.module_achat.data.entity.Produit;
 import org.syscom.module_achat.data.repository.BesoinRepository;
 import org.syscom.module_achat.data.repository.DetailsRepository;
+import org.syscom.module_achat.data.repository.FournisseurRepository;
 import org.syscom.module_achat.data.repository.ProduitRepository;
 import org.syscom.module_achat.data.services.BesoinService;
 import org.syscom.module_achat.exception.validation.NotAuthorizedToDeleteException;
@@ -41,6 +43,9 @@ public class HomeController {
     BesoinService besoinService;
 
     private ArrayList<Produit> produitsfindAll;
+
+    @Autowired
+    FournisseurRepository fournisseurRepository;
 
     @GetMapping
     public String index(Model model, HttpSession session) {
@@ -246,15 +251,41 @@ public class HomeController {
     }
 
     @GetMapping("besoin/group")
-    public String groupBesoin(Model model,HttpSession session){
+    public String groupBesoin(Model model, HttpSession session) {
         model.addAttribute("employe", session.getAttribute("employe"));
         model.addAttribute("pages", "group-besoin");
         model.addAttribute("detailsBesoinGrouped", besoinService.getGroupedDetails());
+        model.addAttribute("detailsEnAttente", besoinService.getGroupedDetailsValidateByAchat());
         model.addAttribute("graph", new GraphChart(besoinService.getGroupedDetails()));
         System.out.println(besoinService.getGroupedDetails());
         return "pages/home/besoin";
     }
 
-    
+    @GetMapping("besoin/group/validate")
+    public String validateDprtByAchat(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        List<Besoin> besoinsByEtat = besoinRepository.findByEtat(5);
+        try {
+            besoinService.dprtAchatValidate(besoinsByEtat, (Employe) session.getAttribute("employe"));
+            redirectAttributes.addFlashAttribute("message", "Besoin validé");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } finally {
+            return "redirect:/home/besoin/group";
+        }
+    }
+
+    @GetMapping("besoin/group/{id}")
+    public String besoinGroupedDetails(@PathVariable("id") Integer id, Model model, HttpSession session) {
+        model.addAttribute("employe", session.getAttribute("employe"));
+
+        model.addAttribute("produits", produitRepository.findAll());
+        System.out.println(produitRepository.findAll());
+        model.addAttribute("fournisseurs", fournisseurRepository.findAll());
+        model.addAttribute("besoinDeatilsGroupByService", new Details()
+                .groupBesoinsByService((ArrayList<Details>) detailsRepository.findByIdProduits(id.intValue())));
+        model.addAttribute("pages", "group-besoin-details");
+        return "pages/home/besoin";
+    }
 
 }

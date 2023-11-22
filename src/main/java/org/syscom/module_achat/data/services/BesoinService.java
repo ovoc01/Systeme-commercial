@@ -68,8 +68,36 @@ public class BesoinService {
         }
     }
 
+    
+
     public ArrayList<Details> getGroupedDetails(){
         List<Besoin> besoinsByEtat = besoinRepository.findByEtat(5);
         return new Besoin().groupDetails(besoinsByEtat);
     }
+
+    @Transactional
+    public void dprtAchatValidate(List<Besoin> besoinsByEtat, Employe attribute) throws Exception {
+        if(besoinsByEtat.size()<1) throw new Exception("Aucun besoin a validez ");
+        if(attribute.isMgr()&&attribute.getService().isServiceAchat()){
+            for (Besoin besoin : besoinsByEtat) {
+                BesoinTransactionLog besoinTransactionLog = new BesoinTransactionLog(besoin, 5);
+                besoinTransactionLogRepository.save(besoinTransactionLog);
+                besoin.setEmploye(attribute);
+                besoin.setDateCreation(Timestamp.valueOf(LocalDateTime.now()));
+                besoin.setEtat(10);
+                System.out.println("etat :"+besoin.getEtat());
+                besoinRepository.save(besoin);
+            }
+        }
+        //throw new Exception("Permission insuffisante "+attribute.getService().isServiceAchat());
+    }
+
+     public ArrayList<Details> getGroupedDetailsValidateByAchat(){
+        List<Besoin> besoinsByEtat = besoinRepository.findByEtat(10);
+        return new Besoin().groupDetails(besoinsByEtat);
+    }
+
+    
+
+
 }

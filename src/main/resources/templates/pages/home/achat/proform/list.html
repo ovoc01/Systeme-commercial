@@ -1,0 +1,34 @@
+<div class="content-wrapper" th:fragment="historiqueBondeCommandeFragment">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Historique de proforma</h4>
+
+                <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>Fournisseur</th>
+                                <th>Date de creation</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr th:each="proforma : ${proformas}">
+                                <td th:text="${proforma.getFournisseur().getLibelle()}"></td>
+                                <td th:text="${proforma.getDateCreation()}"></td>
+                                <td>
+                                    <a th:href="@{/home/proforma/{id}/details(id=${proforma.getId()})}">
+                                        <label style="cursor: pointer;" class="badge badge-success">voir details</label>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

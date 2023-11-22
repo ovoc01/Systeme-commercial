@@ -1,0 +1,49 @@
+<div class="content-wraper mt-3  d-flex justify-content-center" th:fragment="detailsProformaFragment">
+    <div class="col-lg-9 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Details proforma </h4>
+          <p class="card-description">
+            <u>Fournisseur</u>:
+  
+            <code th:text="${proforma.getFournisseur().getLibelle()}"></code>
+          </p>
+          <p class="card-description">
+            <u>Date création</u>: <code th:text="${proforma.getDateCreation()}"></code>
+          </p>
+          
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Produits</th>
+                  <th>Prix unitaire</th>
+                  <th>Quantité</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="detail : ${details}">
+                  <td th:text="${detail.getProduit().getLibelle()}">Jacob</td>
+                  <td th:text="${detail.getPrix()}"></td>
+                  <td th:text="${detail.getQuantite()}"></td>
+                  <td th:text="${detail.getPrixTotal()}"></td>
+                </tr>
+              </tbody>
+            </table>
+            <a th:href="@{/home/proforma/lists}">
+                <button class="btn btn-primary">Retour</button>
+            </a>
+            <!-- <div th:switch="${employe.isMgr()&&success==null&& besoinChoosed.getEtat()==0}">
+              <a th:href="@{/home/besoin/{id}/validate(id=${besoinChoosed.getId()})}">
+                <button th:case="true" class="btn btn-success">Validez la demande</button>
+              </a>
+            </div> -->
+            <br>
+            <div th:if="${message!=null}" class="alert alert-success" th:text="${message}"></div>
+            <div th:if="${error2!=null}" class="alert alert-danger" th:text="${error}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

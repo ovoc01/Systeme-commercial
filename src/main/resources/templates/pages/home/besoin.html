@@ -14,10 +14,7 @@
     <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
+    
     <link rel="stylesheet" th:href="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.css}">
 
     <link rel="stylesheet" th:href="@{/css/vertical-layout-light/style.css}">
@@ -49,10 +46,25 @@
                 <div class="main-panel" th:case="'group-besoin'">
                     <div th:replace="~{pages/home/besoin/group ::groupFragment}"></div>
                 </div>
+                <div class="main-panel" th:case="'group-besoin-details'">
+                    <div th:replace="~{pages/home/besoin/group-details ::groupDetailsFragment}"></div>
+                </div>
                 <div class="main-panel" th:case="'new-proforma'">
                     <div th:replace="~{pages/home/achat/proform/index ::proformaFragment}"></div>
                 </div>
-
+                <div class="main-panel" th:case="'proforma-details'">
+                    <div th:replace="~{pages/home/achat/proform/add-details ::proformaDetailsFragment}"></div>
+                </div>
+                <div class="main-panel" th:case="'list-bondecommande'">
+                    <div th:replace="~{pages/home/achat/bondecommande/index ::listBondeCommandeFragment}"></div>
+                </div>
+                <div class="main-panel" th:case="'list-proforma'">
+                    <div th:replace="~{pages/home/achat/proform/list ::historiqueBondeCommandeFragment}"></div>
+                </div>
+                <div class="main-panel" th:case="'details-proforma'">
+                    <div th:replace="~{pages/home/achat/proform/details ::detailsProformaFragment}"></div>
+                </div>
+                
             </th:block>
 
 

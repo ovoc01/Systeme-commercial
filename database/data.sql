@@ -19,6 +19,7 @@ insert into produits (idProduits, libelle, idNature) values (1, 'Papier', 2);
 insert into produits (idProduits, libelle, idNature) values (2, 'Stylo', 2);
 insert into produits (idProduits, libelle, idNature) values (3, 'Gel hydroalcoolique', 1);
 insert into produits (idProduits, libelle, idNature) values (4, 'Masque', 1);
+insert into produits(idProduits, libelle, idNature) VALUES(5,'Ordinateur portable',2);
 
 
 
